@@ -108,7 +108,6 @@
 			filePath = [path retain];
 			NSArray *array = [filePath componentsSeparatedByString:@"/"];
 			NSString *nameStr = [NSString stringWithFormat:@"File Name:\t%@", (NSString *)[array objectAtIndex:[array count]-1]];
-			//NSString *name = [(NSString *)[array objectAtIndex:[array count]-1] retain];
 			[fileName setStringValue:nameStr];
 			unsigned long size = [self getImageSizeAtPath:filePath];
 			NSString *sizeStr = [NSString stringWithFormat:@"File Size:\t\t%1.2f G", ((float)size)/(1024*1024*1024)];
@@ -118,14 +117,10 @@
 			
 			NSImage *Icon = [[NSWorkspace sharedWorkspace] iconForFileType:[filePath pathExtension]];
 			[self setImage:Icon];
-			//[array release];
 			[dropText setHidden:YES];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"FileSelected" object:nil];
-			//assume that we can ignore all but the first path in the list
-			//[imageControl checkImage:path];
         }
         else{
-            //this can't happen
             return NO;
         }
     }
@@ -133,27 +128,9 @@
 }
 
 - (unsigned long)getImageSizeAtPath:(NSString *)path{
-	if ([[path pathExtension] isEqualTo:@"cue"]){
+	if ([[path pathExtension] isEqualTo:@"cue"]) {
 		return (unsigned long)[[[[NSFileManager defaultManager] attributesOfItemAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"] error:NULL] objectForKey:NSFileSize] floatValue];
-//	}
-//	else if ([[path pathExtension] isEqualTo:@"toc"]){
-//		float appendSize = 0;
-//		NSArray *paths = [[NSString stringWithContentsOfFile:path] componentsSeparatedByString:@"FILE \""];
-//		NSString  *filePathLocal;
-//		
-//		int z;
-//		for (z=1;z<[paths count];z++)
-//		{
-//			filePathLocal = [[[paths objectAtIndex:z] componentsSeparatedByString:@"\""] objectAtIndex:0];
-//			
-//			if ([[filePathLocal stringByDeletingLastPathComponent] isEqualTo:@""])
-//				filePathLocal = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:filePathLocal];
-//			
-//			appendSize = appendSize + [[[[NSFileManager defaultManager] attributesOfItemAtPath:filePathLocal error:NULL] objectForKey:NSFileSize] floatValue];
-//		}
-//		
-//		return (unsigned long)appendSize;
-	}else{
+	} else {
 		return (unsigned long)[[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:NULL] objectForKey:NSFileSize] floatValue];
 	}
 }
