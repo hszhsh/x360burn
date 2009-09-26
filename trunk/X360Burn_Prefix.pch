@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'X360Burn' target in the 'X360Burn' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
